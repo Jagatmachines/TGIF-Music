@@ -16,7 +16,7 @@
     "path": "^0.12.7"
   },
   "scripts": {
-    "build": "babel . --ignore node_modules,build --out-dir build",
+    "build": "(babel . --ignore node_modules,build --out-dir build) && (cp tgif-music-firebase.json build/tgif-music-firebase.json)",
     "start": "nodemon -r dotenv/config -r babel-register server.js",
     "start:prod": "node -r dotenv/config -r build/server.js"
   },

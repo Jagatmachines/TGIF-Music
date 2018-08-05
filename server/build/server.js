@@ -164,7 +164,7 @@ router.get('/', function (req, res) {
     }
 });
 
-var serviceAccount = require("./tgif-music-firebase.json");
+var serviceAccount = require('./tgif-music-firebase.json');
 
 _firebaseAdmin2.default.initializeApp({
     credential: _firebaseAdmin2.default.credential.cert(serviceAccount),

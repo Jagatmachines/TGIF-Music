@@ -165,7 +165,7 @@ router.get('/', (req, res) => {
 
 
 
-var serviceAccount = require("./tgif-music-firebase.json");
+var serviceAccount = require('./tgif-music-firebase.json');
 
 firebase.initializeApp({
   credential: firebase.credential.cert(serviceAccount),
