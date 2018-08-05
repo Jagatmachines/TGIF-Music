@@ -7,7 +7,8 @@ class App extends Component {
     super(props);
 
     this.state = {
-      videoId: ''
+      videoId: '',
+      playlist: '',
     }
   }
 
@@ -17,10 +18,12 @@ class App extends Component {
 
   fetchContent = () => {
     fetch1stContent((res) => {
+      debugger;
       let dataId = Object.keys(res);
       if (dataId && dataId.length) {
         this.setState({
-          videoId: dataId[0]
+          videoId: dataId[0],
+          playlist: dataId
         })
       } 
     })

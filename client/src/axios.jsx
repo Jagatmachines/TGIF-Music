@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { config } from 'dotenv';
 
 /**
  * [baseURL address to the server api (URL) for production]

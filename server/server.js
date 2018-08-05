@@ -175,8 +175,11 @@ firebase.initializeApp({
 function appStartDefine(videoID, callBack) {
   console.log('GET webhook appStartDefine');
 
+    
+
   let obj = {
-      videoID
+      videoID,
+      time: (new Date()).getTime()
   }
   console.log(obj);
   let userRef = firebase.database().ref(`/TGIFTechnology/${obj.videoID}`)
@@ -185,13 +188,14 @@ function appStartDefine(videoID, callBack) {
   userRef.set({
       videoID
   }).then((snap) => {
-    console.log(snap.val());
+    console.log('Data Saved Successfully');
     callBack();
   }).catch((err) => {
+    console.log('Error occured');
     console.log(err);
     callBack();
   })
-  
+
   /* const {userId} = req.query;
 db.ref(`words/${userId}`).once('value')
   .then( snapshot => {
@@ -230,8 +234,8 @@ router.post('/appStart', (req, res) => {
 //Get 1st music when App Start
 router.get('/appStart', (req, res) => {
   let userRef = firebase.database().ref(`/TGIFTechnology`)
-  
-  userRef.limitToLast(1).once('value')
+  // userRef.limitToLast(1).once('value')
+  userRef.orderByChild('time').once('value')
   .then((snap) => {
       console.log(snap.val());
       res.status(200).send(snap.val());
@@ -240,6 +244,18 @@ router.get('/appStart', (req, res) => {
       res.sendStatus(403)
   })
 });
+
+router.get('/getPlaylist', (req, res) => {
+    const playlist = firebase.database().ref(`/TGIFTechnology`);
+
+    playlist.once('value').then((snap) => {
+        console.log(snap.val());
+        res.status(200).send(snap.val());
+    }).catch((err) => {
+        console.log(err);
+        res.sendStatus(403)
+    })
+})
 
 app.get('/deteteVideo', (req, res) => {
   let userRef = firebase.database().ref(`/TGIFTechnology`)
