@@ -1,12 +1,14 @@
 import axios from 'axios';
+import { config } from 'dotenv';
+
 /**
  * [baseURL address to the server api (URL) for production]
  * @type {String}
  */
 
 
-let baseURL = 'https://tgif-music-fest.herokuapp.com/'; // dev server
-// let baseURL = 'http://localhost:5000'; // dev server
+// let baseURL = ; // dev server
+let baseURL = process.env.REACT_APP_APIURL || 'https://tgif-music-fest.herokuapp.com/'; // dev server
 
 axios.defaults.baseURL = baseURL
 axios.defaults.timeout = 15000

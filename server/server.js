@@ -56,13 +56,12 @@ router.post('/', (req, res) => {
                           if(ampersandPosition != -1) {
                               video_id = video_id.substring(0, ampersandPosition);
                           }
-                          appStartDefine(video_id);
-                          loadGoogleAuth(video_id);
-                          // tgifTechnologyadd(video_id);
-
-                          console.log('Response of api');
+                          appStartDefine(video_id, () => {
+                            console.log('Response of api');
+                            res.sendStatus(200);
+                          });
                       } else {
-                          console.log('Incorrect Youtube url ')
+                        res.status(200).send('Incorrect Youtube url');
                       }
                   }
               }
@@ -108,7 +107,7 @@ router.post('/', (req, res) => {
       }); */
 
       // Returns a '200 OK' response to all requests
-      res.status(200).send('EVENT_RECEIVED');
+      
   } else {
       // Returns a '404 Not Found' if event is not from a page subscription
       res.sendStatus(404);
@@ -116,7 +115,7 @@ router.post('/', (req, res) => {
 
 });
 
-router.get('/authStart', (req, res) => {
+/* router.get('/authStart', (req, res) => {
   console.log('Auth entered');
   loadGoogleAuth('vFN3eNe0_Hs');
   res.send(req.query);
@@ -130,7 +129,7 @@ router.get('/getToken', (req, res) => {
   }
 
   res.send(req.query);
-})
+}) */
 
 // Adds support for GET requests to our webhook
 router.get('/', (req, res) => {
@@ -173,7 +172,7 @@ firebase.initializeApp({
 });
 
 
-function appStartDefine(videoID) {
+function appStartDefine(videoID, callBack) {
   console.log('GET webhook appStartDefine');
 
   let obj = {
@@ -183,7 +182,13 @@ function appStartDefine(videoID) {
   let userRef = firebase.database().ref(`/TGIFTechnology/${obj.videoID}`)
   // let userRef = firebase.database().ref(`/TGIFTechnology`)
   
-  userRef.push(obj);
+  userRef.push(obj).then((snap) => {
+    console.log(snap.val());
+    callBack();
+  }).catch((err) => {
+    console.log(err);
+    callBack();
+  })
 
   /* const {userId} = req.query;
 db.ref(`words/${userId}`).once('value')
@@ -191,19 +196,19 @@ db.ref(`words/${userId}`).once('value')
     res.send(snapshot.val());
   }); */
 
-  userRef.once('value').then((snap) => {
+  /* userRef.once('value').then((snap) => {
       console.log(snap.val());
-  })
+  }) */
 
-  userRef.orderByKey().limitToFirst(1).once('value', (snap) => {
-      console.log(snap.val()); // first item, in format {"<KEY>": "<VALUE>"}
-    });
+  /* userRef.orderByKey().limitToFirst(1).once('value', (snap) => {
+      console.log(snap.val());
+    }); */
 }
 
 
 // Creates the endpoint for our webhook 
 router.get('/appStartDefine', (req, res) => {
-  appStartDefine('DH4ugAjuCHA')
+  appStartDefine('DH4ugAjuCHA', () => {})
 
   res.status(200).send('EVENT_RECEIVED');
   //res.sendStatus(403);
