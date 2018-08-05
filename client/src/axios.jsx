@@ -5,7 +5,7 @@ import axios from 'axios';
  */
 
 
-let baseURL = 'http://localhost:8080/'; // dev server
+let baseURL = 'https://tgif-music-fest.herokuapp.com/'; // dev server
 // let baseURL = 'http://localhost:5000'; // dev server
 
 axios.defaults.baseURL = baseURL
