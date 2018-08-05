@@ -172,7 +172,7 @@ firebase.initializeApp({
 });
 
 
-appStartDefine = (videoID, callBack) => {
+const appStartDefine = (videoID, callBack) => {
   console.log('GET webhook appStartDefine');
 
     
