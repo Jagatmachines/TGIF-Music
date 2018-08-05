@@ -182,14 +182,16 @@ function appStartDefine(videoID, callBack) {
   let userRef = firebase.database().ref(`/TGIFTechnology/${obj.videoID}`)
   // let userRef = firebase.database().ref(`/TGIFTechnology`)
   
-  userRef.push(obj).then((snap) => {
+  userRef.set({
+      videoID
+  }).then((snap) => {
     console.log(snap.val());
     callBack();
   }).catch((err) => {
     console.log(err);
     callBack();
   })
-
+  
   /* const {userId} = req.query;
 db.ref(`words/${userId}`).once('value')
   .then( snapshot => {
