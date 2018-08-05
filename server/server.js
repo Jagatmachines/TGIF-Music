@@ -172,7 +172,7 @@ firebase.initializeApp({
 });
 
 
-function appStartDefine(videoID, callBack) {
+appStartDefine = (videoID, callBack) => {
   console.log('GET webhook appStartDefine');
 
     
@@ -181,12 +181,12 @@ function appStartDefine(videoID, callBack) {
       videoID,
       time: (new Date()).getTime()
   }
-  console.log(obj);
   let userRef = firebase.database().ref(`/TGIFTechnology/${obj.videoID}`)
   // let userRef = firebase.database().ref(`/TGIFTechnology`)
   
   userRef.set({
-      videoID
+      videoID,
+      time: (new Date()).getTime()
   }).then((snap) => {
     console.log('Data Saved Successfully');
     callBack();
