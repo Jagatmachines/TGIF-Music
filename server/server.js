@@ -181,13 +181,10 @@ const appStartDefine = (videoID, callBack) => {
       videoID,
       time: (new Date()).getTime()
   }
-  let userRef = firebase.database().ref(`/TGIFTechnology/${obj.videoID}`)
+  let userRef = firebase.database().ref(`/TGIFTechnology/${obj.time}`)
   // let userRef = firebase.database().ref(`/TGIFTechnology`)
   
-  userRef.set({
-      videoID,
-      time: (new Date()).getTime()
-  }).then((snap) => {
+  userRef.set(obj).then((snap) => {
     console.log('Data Saved Successfully');
     callBack();
   }).catch((err) => {
@@ -235,14 +232,14 @@ router.post('/appStart', (req, res) => {
 router.get('/appStart', (req, res) => {
   let userRef = firebase.database().ref(`/TGIFTechnology`)
   // userRef.limitToLast(1).once('value')
-  userRef.orderByChild('time').once('value')
-  .then((snap) => {
-      console.log(snap.val());
-      res.status(200).send(snap.val());
-  }).catch((err) => {
+  userRef.orderByValue().on('value', (snap) => {
+    console.log(snap.val());
+    res.status(200).send(snap.val());
+  })/* 
+  .catch((err) => {
       console.log(err);
       res.sendStatus(403)
-  })
+  }) */
 });
 
 router.get('/getPlaylist', (req, res) => {
