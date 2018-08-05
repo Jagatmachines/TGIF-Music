@@ -238,10 +238,10 @@ app.get('/deteteVideo', (req, res) => {
   let userRef = firebase.database().ref(`/TGIFTechnology`)
  
   if (req.query.videoId) {
-      const videoId = req.query.videoId
-      console.log(videoId);
+      const videoIdRef = req.query.videoId
+      console.log(videoIdRef);
 
-      const childVideo = userRef.child(videoId)
+      const childVideo = userRef.child(videoIdRef)
 
       childVideo.once('value')
       .then((snap) => {
