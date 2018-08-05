@@ -52,10 +52,10 @@ function deleteVideoId (videoId, response) {
   
    
   let userRef = firebase.database().ref(`/TGIFTechnology`)
-  const videoId = req.query.videoId
-  console.log(videoId);
+  let videoIdRef1 = req.query.videoId
+  console.log(videoIdRef1);
 
-  const childVideo = userRef.child(videoId)
+  const childVideo = userRef.child(videoIdRef1)
 
   childVideo.once('value')
   .then((snap) => {
