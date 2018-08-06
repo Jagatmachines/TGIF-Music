@@ -280,16 +280,6 @@ app.get('/deteteVideo', (req, res) => {
           console.log(err);
           res.sendStatus(403)
       })
-
-
-      /* userRef.child(videoId).remove()
-      .then((snap) => {
-          console.log(snap.val);
-          res.status(200).send('Event_successfully');
-      }).catch((err) => {
-          console.log(err);
-          res.sendStatus(403)
-      }) */
   }
 })
 

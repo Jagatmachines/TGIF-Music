@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import Youtube from 'react-youtube';
-import { fetch1stContent, deleteContent } from './actions';
+import { fetch1stContent, deleteContent, videoContent } from './actions';
+import { ListGroup, ListGroupItem } from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 
 class App extends Component {
   constructor(props) {
@@ -9,30 +12,46 @@ class App extends Component {
     this.state = {
       videoId: '',
       playlist: '',
+      playlistContent: [],
+      time: ''
     }
   }
 
   componentWillMount() {
-    this.fetchContent();
-  }
-
-  fetchContent = () => {
-    fetch1stContent((res) => {
-      debugger;
-      let dataId = Object.keys(res);
-      if (dataId && dataId.length) {
-        this.setState({
-          videoId: dataId[0],
-          playlist: dataId
-        })
-      } 
+    this.fetchContent().then(() => {
+      this.playListDet()
     })
   }
 
-  deleteContentFunc = () => {
-    const { videoId } = this.state;
+  fetchContent = async () => {
+    await fetch1stContent((res) => {
+      const dataId = Object.keys(res);
+      if (dataId && dataId.length) {
+        this.setState({
+          videoId: res[`${dataId[0]}`].videoID,
+          time: dataId[0],
+          playlist: res
+        }, () => {
+          return Promise.resolve();
+        })
+      }
+    })
 
-    deleteContent(videoId, (res) => {
+    return Promise.resolve();
+  }
+
+  deleteContentFunc = () => {
+    const { time } = this.state;
+
+    deleteContent(time, (res) => {
+      // console.log(res);
+      console.log('new content to be called');
+      this.fetchContent();
+    })
+  }
+
+  deleteBtn = (time) => {
+    deleteContent(time, (res) => {
       // console.log(res);
       console.log('new content to be called');
       this.fetchContent();
@@ -48,8 +67,37 @@ class App extends Component {
     this.deleteContentFunc();
   }
 
+  playListDet = async () => {
+    const { playlist } = this.state;
+    const dataId = Object.keys(playlist);
+    
+    const playlistContent = await dataId.map(async (item) => {
+      const videoObj = playlist[item];
+      const jData = await videoContent(videoObj.videoID).then((data) => {
+        return data;
+      })
+      
+      const videoData = {
+        videoId: videoObj.videoID,
+        title: jData.items[0].snippet.title,
+        thumbnail: jData.items[0].snippet.thumbnails.default.url,
+        time: item
+      }
+      
+      return videoData;
+    });
+
+    const resolveProm = await Promise.all(playlistContent);
+
+    this.setState({
+      playlistContent: resolveProm
+    })
+
+    return resolveProm;
+  }
+
   render() {
-    const { videoId } = this.state;
+    const { videoId, playlistContent } = this.state;
     
 
     const opts = {
@@ -66,18 +114,36 @@ class App extends Component {
           <div className='d-flex justify-content-center'>
             <h1>Fuse TGIF Music Blast</h1>
           </div>
+          <div className='d-flex justify-content-between'>
+            
+            <div>
+              <Youtube
+                videoId={videoId && videoId.length ? videoId : ''}
+                opts={opts}
+                onReady={this.onReady}
+                onEnd={this.onEnd}
+              />
+              <button className='btn btn-lg btn-success' onClick={this.deleteContentFunc}>Next</button>
+            </div>
+
+            <ListGroup>
+              {playlistContent.map((item, index) => {
+                return (
+                  <ListGroupItem key={index} className='d-flex'>
+                    <img src={item.thumbnail} width={120} height={90} alt={item.title}/>
+                    <p className='m-2'>{item.title}</p>
+                    {/* <button className='btn btn-danger'>Delete</button> */}
+                    <FontAwesomeIcon className='offset-1' icon={faTrashAlt} onClick={() => {this.deleteBtn(item.time)}} />
+                  </ListGroupItem>
+                )
+              })}
+          </ListGroup>
+          </div>
           <div className='d-flex justify-content-center'>
             
-            <Youtube
-              videoId={videoId && videoId.length ? videoId : ''}
-              opts={opts}
-              onReady={this.onReady}
-              onEnd={this.onEnd}
-            />
           </div>
-          <div className='d-flex justify-content-center'>
-            <button className='btn btn-lg btn-success' onClick={this.deleteContentFunc}>Next</button>
-          </div>
+
+          
         </div>
       );
     } else {
