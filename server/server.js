@@ -233,7 +233,7 @@ router.get('/appStart', (req, res) => {
   let userRef = firebase.database().ref(`/TGIFTechnology`)
   // userRef.limitToLast(1).once('value')
   userRef.orderByValue().on('value', (snap) => {
-    console.log(snap.val());
+    // console.log(snap.val());
     res.status(200).send(snap.val());
   })/* 
   .catch((err) => {
@@ -246,7 +246,7 @@ router.get('/getPlaylist', (req, res) => {
     const playlist = firebase.database().ref(`/TGIFTechnology`);
 
     playlist.once('value').then((snap) => {
-        console.log(snap.val());
+        // console.log(snap.val());
         res.status(200).send(snap.val());
     }).catch((err) => {
         console.log(err);
@@ -259,16 +259,17 @@ app.get('/deteteVideo', (req, res) => {
  
   if (req.query.videoId) {
       const videoIdRef = req.query.videoId
-      console.log(videoIdRef);
+      // console.log(videoIdRef);
 
       const childVideo = userRef.child(videoIdRef)
 
-      childVideo.once('value')
+      /* childVideo.once('value')
       .then((snap) => {
-          console.log('deleteSnap', snap.val());
+          // console.log('deleteSnap', snap.val());
           if (snap.val() != null) {
               console.log('delete started')
-              childVideo.remove().then(() => {
+              return childVideo.remove()
+              .then(() => {
                   console.log('delete successfully');
                   res.sendStatus(204)
               }).catch((err) => {
@@ -279,7 +280,16 @@ app.get('/deteteVideo', (req, res) => {
       }).catch((err) => {
           console.log(err);
           res.sendStatus(403)
-      })
+      }) */
+
+      return childVideo.remove()
+        .then(() => {
+            console.log('delete successfully');
+            res.sendStatus(204)
+        }).catch((err) => {
+            console.log(err);
+            res.sendStatus(403)
+        })
   }
 })
 
