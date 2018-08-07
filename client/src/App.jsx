@@ -46,7 +46,9 @@ class App extends Component {
     deleteContent(time, (res) => {
       // console.log(res);
       console.log('new content to be called');
-      this.fetchContent();
+      this.fetchContent().then(() => {
+        this.playListDet()
+      })
     })
   }
 
@@ -54,7 +56,9 @@ class App extends Component {
     deleteContent(time, (res) => {
       // console.log(res);
       console.log('new content to be called');
-      this.fetchContent();
+      this.fetchContent().then(() => {
+        this.playListDet()
+      })
     })
   }
 

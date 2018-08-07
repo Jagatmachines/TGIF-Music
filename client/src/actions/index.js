@@ -17,17 +17,14 @@ export const fetch1stContent = async (callBack) => {
 };
 
 export const deleteContent = (videoId, callBack) => {
-    debugger;
     return axios.request({
         method: 'get',
         url: `/deteteVideo?videoId=${videoId}`,
         'noRetry': true,
     }).then((response) => {
-        debugger;
         callBack(response.data);
         return Promise.resolve(response.data);
     }).catch((err) => {
-        debugger;
         console.log(err);
         return Promise.reject(err);
     });
