@@ -130,7 +130,7 @@ class App extends Component {
                   onEnd={this.onEnd}
                 />
                 <Route
-                  path='/admin'
+                  path='/app/admin'
                   render={(props) => (
                     <button className='btn btn-lg btn-success' onClick={this.deleteContentFunc}>Next</button>
                   )}
@@ -145,7 +145,7 @@ class App extends Component {
                       <p className='m-2'>{item.title}</p>
                       {/* <button className='btn btn-danger'>Delete</button> */}
                       <Route
-                        path='/admin'
+                        path='/app/admin'
                         render={(props) => (
                           <FontAwesomeIcon className='offset-1' icon={faTrashAlt} onClick={() => {this.deleteBtn(item.time)}} />
                         )}
