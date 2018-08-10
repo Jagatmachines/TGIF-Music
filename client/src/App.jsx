@@ -3,7 +3,8 @@ import Youtube from 'react-youtube';
 import { fetch1stContent, deleteContent, videoContent } from './actions';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { Route, BrowserRouter as Router } from 'react-router-dom';
 
 class App extends Component {
   constructor(props) {
@@ -114,41 +115,54 @@ class App extends Component {
 
     if (videoId.length) {
       return (
-        <div>
-          <div className='d-flex justify-content-center'>
-            <h1>Fuse TGIF Music Blast</h1>
-          </div>
-          <div className='d-flex justify-content-between'>
-            
-            <div>
-              <Youtube
-                videoId={videoId && videoId.length ? videoId : ''}
-                opts={opts}
-                onReady={this.onReady}
-                onEnd={this.onEnd}
-              />
-              <button className='btn btn-lg btn-success' onClick={this.deleteContentFunc}>Next</button>
+        <Router>
+          <div>
+            <div className='d-flex justify-content-center'>
+              <h1>Fuse TGIF Music Blast</h1>
+            </div>
+            <div className='d-flex justify-content-between'>
+              
+              <div>
+                <Youtube
+                  videoId={videoId && videoId.length ? videoId : ''}
+                  opts={opts}
+                  onReady={this.onReady}
+                  onEnd={this.onEnd}
+                />
+                <Route
+                  path='/admin'
+                  render={(props) => (
+                    <button className='btn btn-lg btn-success' onClick={this.deleteContentFunc}>Next</button>
+                  )}
+                />
+              </div>
+
+              <ListGroup>
+                {playlistContent.map((item, index) => {
+                  return (
+                    <ListGroupItem key={index} className='d-flex'>
+                      <img src={item.thumbnail} width={120} height={90} alt={item.title}/>
+                      <p className='m-2'>{item.title}</p>
+                      {/* <button className='btn btn-danger'>Delete</button> */}
+                      <Route
+                        path='/admin'
+                        render={(props) => (
+                          <FontAwesomeIcon className='offset-1' icon={faTrashAlt} onClick={() => {this.deleteBtn(item.time)}} />
+                        )}
+                      />
+                    </ListGroupItem>
+                  )
+                })}
+            </ListGroup>
+            </div>
+            <div className='d-flex justify-content-center'>
+              
             </div>
 
-            <ListGroup>
-              {playlistContent.map((item, index) => {
-                return (
-                  <ListGroupItem key={index} className='d-flex'>
-                    <img src={item.thumbnail} width={120} height={90} alt={item.title}/>
-                    <p className='m-2'>{item.title}</p>
-                    {/* <button className='btn btn-danger'>Delete</button> */}
-                    <FontAwesomeIcon className='offset-1' icon={faTrashAlt} onClick={() => {this.deleteBtn(item.time)}} />
-                  </ListGroupItem>
-                )
-              })}
-          </ListGroup>
-          </div>
-          <div className='d-flex justify-content-center'>
             
           </div>
 
-          
-        </div>
+        </Router>
       );
     } else {
       return (
