@@ -88,7 +88,6 @@ class App extends Component {
         thumbnail: jData.items[0].snippet.thumbnails.default.url,
         time: item
       }
-      
       return videoData;
     });
 
