@@ -21,4 +21,4 @@ yarn-debug.log*
 yarn-error.log*
 
 #config file
-/tgif-music-firebase.json
+server/tgif-music-firebase.json
