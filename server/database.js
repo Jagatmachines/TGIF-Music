@@ -4,7 +4,7 @@ const serviceAccount = require('./tgif-music-firebase.json');
 
 firebase.initializeApp({
   credential: firebase.credential.cert(serviceAccount),
-  databaseURL: "https://tgif-music.firebaseio.com"
+  databaseURL: "https://fuse-tgif.firebaseio.com"
 });
 
 
