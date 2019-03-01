@@ -44,7 +44,8 @@ router.post('/', (req, res) => {
 
                   
                   if (!RegExp.$3) {
-                      console.log('Incorrect Url');
+                      console.log('Not event a url');
+                      res.status(200).send('Not event a url');
                   } else if (RegExp.$3.indexOf('youtu') > -1) {
                       // type = 'youtube';
                       // console.log(message);
