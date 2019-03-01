@@ -8,6 +8,7 @@ export const fetch1stContent = async (callBack) => {
         url: '/appStart',
         'noRetry': true,
     }).then((response) => {
+        console.log('fetch content', response.data);
         callBack(response.data)
         return Promise.resolve(response.data);
     }).catch((err) => {
