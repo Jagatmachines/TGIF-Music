@@ -40,6 +40,7 @@ router.post('/', (req, res) => {
           // console.log(webhook_event);
           entry.messaging.map((mesgData) => {
               let messageItem = mesgData.message.text;
+              console.log('message haru', mesgData);
               console.log(messageItem);
               if (messageItem) {
                   messageItem.match(/(http:|https:|)\/\/(player.|www.|.+)?(youtu(be\.com|\.be|be\.googleapis\.com))\/(medias|video\/|embed\/|watch\?v=|v\/)?([A-Za-z0-9._%-]*)(\&\S+)?/);
