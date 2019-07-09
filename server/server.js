@@ -24,10 +24,8 @@ const router = express.Router();
 // Creates the endpoint for our webhook 
 router.post('/', (req, res) => {  
   console.log('POST webhook');
-  let body = req.body;
-  console.log('body', req);
-
-
+  const body = req.body;
+  
   // Checks this is an event from a page subscription
   if (body.object === 'page') {
 
@@ -39,9 +37,11 @@ router.post('/', (req, res) => {
           let webhook_event = entry.messaging[0];
           // console.log(webhook_event);
           entry.messaging.map((mesgData) => {
-              let messageItem = mesgData.message.text;
-              console.log('message haru', mesgData);
-              console.log(messageItem);
+              const messageItem = mesgData.message.text;
+              const threadId = mesgData.thread.id;
+
+              console.log('thread id', threadId);
+              console.log('message', messageItem);
               if (messageItem) {
                   messageItem.match(/(http:|https:|)\/\/(player.|www.|.+)?(youtu(be\.com|\.be|be\.googleapis\.com))\/(medias|video\/|embed\/|watch\?v=|v\/)?([A-Za-z0-9._%-]*)(\&\S+)?/);
 
@@ -60,7 +60,7 @@ router.post('/', (req, res) => {
                           if(ampersandPosition != -1) {
                               video_id = video_id.substring(0, ampersandPosition);
                           }
-                          appStartDefine(video_id, () => {
+                          appStartDefine(video_id, threadId, () => {
                             console.log('Response of api');
                             res.sendStatus(200);
                           });
@@ -176,7 +176,7 @@ firebase.initializeApp({
 });
 
 
-const appStartDefine = (videoID, callBack) => {
+const appStartDefine = (videoID, threadId, callBack) => {
   console.log('GET webhook appStartDefine');
 
     
@@ -185,7 +185,7 @@ const appStartDefine = (videoID, callBack) => {
       videoID,
       time: (new Date()).getTime()
   }
-  let userRef = firebase.database().ref(`/TGIFTechnology/${obj.time}`)
+  let userRef = firebase.database().ref(`/TGIF/${threadId}/${obj.time}`)
   // let userRef = firebase.database().ref(`/TGIFTechnology`)
   
   userRef.set(obj).then((snap) => {
@@ -215,7 +215,7 @@ db.ref(`words/${userId}`).once('value')
 
 // Creates the endpoint for our webhook 
 router.get('/appStartDefine', (req, res) => {
-  appStartDefine('DH4ugAjuCHA', () => {})
+  appStartDefine('DH4ugAjuCHA', '', () => {})
 
   res.status(200).send('EVENT_RECEIVED');
   //res.sendStatus(403);
