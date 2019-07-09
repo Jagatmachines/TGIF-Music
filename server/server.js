@@ -25,7 +25,8 @@ const router = express.Router();
 router.post('/', (req, res) => {  
   console.log('POST webhook');
   let body = req.body;
-  console.log(body)
+  console.log('body', req);
+
 
   // Checks this is an event from a page subscription
   if (body.object === 'page') {
