@@ -2,19 +2,50 @@ import axios from '../axios';
 
 const youtubeApiKey = 'AIzaSyDm6WbSwEJ--G-SsASkiL_fLNaD6qmNKrc'
 
-export const fetch1stContent = async (callBack) => {
+export const fetchGroupName = async () => {
     return axios.request({
         method: 'get',
-        url: '/appStart',
+        url: '/groupName',
         'noRetry': true,
     }).then((response) => {
-        console.log('fetch content', response.data);
-        callBack(response.data)
+        // callBack(response.data)
         return Promise.resolve(response.data);
     }).catch((err) => {
-        console.log(err);
         return Promise.reject(err);
     });
+};
+
+export const setGroupName = async (data) => {
+    return axios.request({
+        method: 'post',
+        url: '/groupName',
+        data,
+        'noRetry': true,
+    }).then((response) => {
+        // callBack(response.data)
+        return Promise.resolve(response.data);
+    }).catch((err) => {
+        return Promise.reject(err);
+    });
+};
+
+
+
+
+
+export const fetch1stContent = () => {
+    return new Promise((resolve, reject) => {
+        axios.request({
+            method: 'get',
+            url: '/appStart',
+            'noRetry': true,
+        }).then((response) => {
+            return resolve(response.data);
+        }).catch((err) => {
+            console.log(err);
+            return reject(err);
+        });
+    })
 };
 
 export const deleteContent = (videoId, callBack) => {

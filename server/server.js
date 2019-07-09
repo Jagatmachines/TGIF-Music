@@ -25,6 +25,7 @@ const router = express.Router();
 router.post('/', (req, res) => {  
   console.log('POST webhook');
   let body = req.body;
+  console.log(body)
 
   // Checks this is an event from a page subscription
   if (body.object === 'page') {
@@ -300,6 +301,39 @@ app.get('/deteteVideo', (req, res) => {
 
 
 
+
+
+
+router.post('/groupName', (req, res) => {  
+  // res.status(200).send('EVENT_RECEIVED');
+  const { groupId, createdBy, groupName } = req.body;
+  const obj = {
+    groupId,
+    createdBy,
+    groupName,
+    createdOn: (new Date()).toLocaleDateString()
+  }
+  const userRef = firebase.database().ref(`/Groups/${obj.groupId}`)
+  // let userRef = firebase.database().ref(`/TGIFTechnology`)
+
+  userRef.set(obj).then((snap) => {
+    console.log('Group Data Saved Successfully');
+    res.status(200).send(obj);
+  }).catch((err) => {
+    console.log('Error occured');
+    console.log(err);
+    res.status(400).send(err);
+  })
+})
+
+router.get('/groupName', (req, res) => {  
+  const userRef = firebase.database().ref(`/Groups`)
+  userRef.orderByValue().once('value', (snap) => {
+    res.status(200).send(snap.val());
+  })
+});
+
+  
 
 
 
