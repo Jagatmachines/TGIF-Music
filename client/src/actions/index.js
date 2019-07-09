@@ -33,12 +33,12 @@ export const setGroupName = async (data) => {
 
 
 
-export const fetch1stContent = () => {
+export const fetch1stContent = (groupId) => {
     return new Promise((resolve, reject) => {
         axios.request({
             method: 'get',
-            url: '/appStart',
-            'noRetry': true,
+            url: `/appStart?groupId=${groupId}`,
+            'noRetry': true
         }).then((response) => {
             return resolve(response.data);
         }).catch((err) => {

@@ -234,7 +234,9 @@ router.post('/appStart', (req, res) => {
 
 //Get 1st music when App Start
 router.get('/appStart', (req, res) => {
-  let userRef = firebase.database().ref(`/TGIFTechnology`)
+  console.log('request', req)
+  console.log('request params', req.params);
+  let userRef = firebase.database().ref(`/TGIF/${req.params.groupId}`)
   // userRef.limitToLast(1).once('value')
   userRef.orderByValue().once('value', (snap) => {
     // console.log(snap.val());

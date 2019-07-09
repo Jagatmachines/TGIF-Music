@@ -24,22 +24,30 @@ class GroupVideo extends React.Component {
     }
 
     fetchContent = async () => {
-        await fetch1stContent(/* (res) => {
-          const dataId = Object.keys(res);
-          if (dataId && dataId.length) {
-            this.setState({
-              videoId: res[`${dataId[0]}`].videoID,
-              time: dataId[0],
-              playlist: res
-            }, () => {
-              return Promise.resolve();
-            })
-          }
-        } */).then((res) => {
-            debugger;
-        })
-    
-        return Promise.resolve();
+        try {
+            const groupId = this.props.location.search.split('=')[1]
+            if (groupId) {
+                await fetch1stContent(groupId).then((res) => {
+                    debugger;
+                    const dataId = Object.keys(res);
+                if (dataId && dataId.length) {
+                    this.setState({
+                    videoId: res[`${dataId[0]}`].videoID,
+                    time: dataId[0],
+                    playlist: res
+                    }, () => {
+                    return Promise.resolve();
+                    })
+                }
+                })
+            }
+            return Promise.resolve();
+        } catch(e) {
+            return Promise.reject();
+        }
+        
+        
+        
       }
     
       deleteContentFunc = () => {
