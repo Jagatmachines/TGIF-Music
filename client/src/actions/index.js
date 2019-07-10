@@ -35,7 +35,6 @@ export const setGroupName = async (data) => {
 
 export const fetch1stContent = (groupId) => {
     return new Promise((resolve, reject) => {
-        debugger;
         axios.request({
             method: 'get',
             url: `/appStart?groupId=${groupId}`,
