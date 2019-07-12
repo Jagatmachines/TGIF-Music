@@ -22,7 +22,7 @@
     "react-youtube": "^7.9.0"
   },
   "scripts": {
-    "start": "REACT_APP_APIURL=http://localhost:8080  react-scripts start",
+    "start": "REACT_APP_APIURL=http://localhost:8080 PORT=3001  react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
