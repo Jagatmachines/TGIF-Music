@@ -115,6 +115,9 @@ class GroupTable extends React.Component {
               </React.Fragment>
             )}
           </ToolkitProvider>
+          <button className="btn btn-primary btn-block" onClick={this.handleInstructionModal}>
+            Instruction
+          </button>
         </div>
         <GroupAddForm
           setGroupName={this.setGroupName}

@@ -19,7 +19,8 @@ const GroupAddForm = props => {
               validate={values => {
                 const errors = {}
                 if (!values.groupName) errors.groupName = "Required"
-                if (values.groupId && values.groupId.length !== 16)
+                if (!values.groupId) errors.groupId = "Required"
+                else if (values.groupId && values.groupId.length !== 16)
                   errors.groupId = "Group id should be workplace chat id"
                 if (!values.createdBy) errors.createdBy = "Required fusemachines email id"
                 return errors
