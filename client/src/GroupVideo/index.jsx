@@ -4,7 +4,7 @@ import { fetch1stContent, deleteContent, videoContent } from "../actions"
 // import { ListGroup, ListGroupItem } from 'reactstrap';
 import { Link } from "react-router-dom"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faTrashAlt, faArrowAltCircleLeft, faSpinner, faCompactDisc } from "@fortawesome/free-solid-svg-icons"
+import { faTrashAlt, faArrowAltCircleLeft, faCompactDisc } from "@fortawesome/free-solid-svg-icons"
 import { ListGroup } from "react-bootstrap"
 import queryString from "query-string"
 
@@ -59,18 +59,22 @@ class GroupVideo extends React.Component {
 
   deleteContentFunc = () => {
     const { time } = this.state
+    const queryParams = queryString.parse(this.props.location.search)
 
-    deleteContent(time, res => {
-      // console.log(res);
-      console.log("new content to be called")
-      this.fetchContent().then(() => {
-        this.playListDet()
+    if (queryParams.id) {
+      deleteContent(time, queryParams.id, res => {
+        // console.log(res);
+        console.log("new content to be called")
+        this.fetchContent().then(() => {
+          this.playListDet()
+        })
       })
-    })
+    }
   }
 
   deleteBtn = time => {
-    deleteContent(time, res => {
+    const queryParams = queryString.parse(this.props.location.search)
+    deleteContent(time, queryParams.id, res => {
       // console.log(res);
       console.log("new content to be called")
       this.fetchContent().then(() => {
