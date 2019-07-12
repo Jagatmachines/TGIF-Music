@@ -1,6 +1,7 @@
 import React from "react"
 import BootstrapTable from "react-bootstrap-table-next"
 import GroupAddForm from "./GroupAddForm"
+import Instruction from "./Instruction"
 import { fetchGroupName, setGroupName } from "../actions"
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit"
 
@@ -9,6 +10,7 @@ class GroupTable extends React.Component {
     super(props)
     this.state = {
       groupAddForm: false,
+      instuction: false,
       products: [],
     }
   }
@@ -24,6 +26,12 @@ class GroupTable extends React.Component {
   handleGroupAddFormModal = () => {
     this.setState({
       groupAddForm: !this.state.groupAddForm,
+    })
+  }
+
+  handleInstructionModal = () => {
+    this.setState({
+      instuction: !this.state.instuction,
     })
   }
 
@@ -74,11 +82,16 @@ class GroupTable extends React.Component {
         text: "Created On",
       },
     ]
-    const { groupAddForm } = this.state
+    const { groupAddForm, instuction } = this.state
 
     return (
       <div className="container">
         <div className="d-flex flex-row-reverse">
+          <div className="p-2">
+            <button className="btn btn-primary" onClick={this.handleInstructionModal}>
+              Instruction
+            </button>
+          </div>
           <div className="p-2">
             <button className="btn btn-primary" onClick={this.handleGroupAddFormModal}>
               Add Group
@@ -108,6 +121,7 @@ class GroupTable extends React.Component {
           groupAddForm={groupAddForm}
           handleGroupAddFormModal={this.handleGroupAddFormModal}
         />
+        <Instruction instuction={instuction} handleInstructionModal={this.handleInstructionModal} />
       </div>
     )
   }
