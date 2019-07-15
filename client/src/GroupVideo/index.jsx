@@ -154,13 +154,9 @@ class GroupVideo extends React.Component {
                       onReady={this.onReady}
                       onEnd={this.onEnd}
                     />
-                    {admin ? (
-                      <button className="btn btn-lg btn-success" onClick={this.deleteContentFunc}>
-                        Next
-                      </button>
-                    ) : (
-                      ""
-                    )}
+                    <button className="btn btn-lg btn-success" onClick={this.deleteContentFunc}>
+                      Next
+                    </button>
                   </div>
 
                   <ListGroup>
